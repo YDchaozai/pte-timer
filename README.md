@@ -1,27 +1,26 @@
-# PTE Timer · KO宝的500小时冒险
+# PTE Timer V2.3.1 — KO宝冒险正式升级候选包
 
-纯静态、可安装的中文 iPhone PWA。无需构建或 npm。`index.html` 为主程序。
+## 文件
+- `index.html`：完整界面、计时、历史编辑、日历、装备、心愿、备份与恢复
+- `assets/`：完整角色阶段插画、装备图鉴 SVG、背景与 PWA 图标
+- `manifest.webmanifest`：iPhone 主屏幕安装配置
+- `sw.js`：离线缓存与更新策略
 
-## 功能
-- 四模块：Quiz / Active Dialogue / Recording Analysis / Special Training
-- Quiz 15分钟目标（正向计时，不自动停止）；暂停/继续/结束保存
-- 500小时累计进度、6个中文里程碑与能力目标
-- 最近7天柱状图、模块统计、训练历史
-- 手动新增、编辑、删除；CSV导出、JSON备份及导入
-- 训练策略 Playbook 和自定义本周重点
-- 本地离线存储及 PWA 缓存
+## 核心兼容性
+旧训练数据继续从同一网站 origin 的 `localStorage["pte_timer_v1"]` 读取；游戏数据独立写入 `pte_timer_game_v2`。代码部署到 GitHub 不会迁移设备上的 localStorage。不要换域名、删除主屏幕 App 或清除网站数据。**部署前务必在旧版导出 JSON 备份**。
 
-## 发布（推荐 GitHub Pages，完全静态）
-1. 登录 github.com，创建名为 `pte-timer` 的仓库（公开仓库最简单）。
-2. 上传此文件夹**内部**的全部文件（保留 assets 子文件夹）。
-3. 仓库 Settings → Pages → Build and deployment → Source 选 Deploy from a branch；Branch 选 main / (root) → Save。
-4. 等待 Pages 显示部署成功，访问 `https://你的用户名.github.io/pte-timer/`。
-5. iPhone Safari 打开地址 → 分享 → 添加到主屏幕。
+## V2.3.1 特别修正
+- KO宝形象采用每50小时切换一张完整角色阶段图，不再用错位透明装备覆盖角色。
+- 每10小时装备图鉴更新并显示升级弹窗。
+- 日历显示每日分钟数和30分钟金冠；连续训练及次日补救按实际分钟数计算。
+- 底部五导航项固定网格、iPhone 安全区域适配。
+- 心愿、兑现状态和特殊装备选择单独持久化，包含在 V2 完整 JSON 备份。
+- 保留四模块计时、手动新增/编辑/删除、进度、策略和历史页面。
 
-## 重要：数据与可靠性
-数据只保存在**当前设备当前站点**的 localStorage；不是云端同步。清除 Safari 网站数据、换设备或更换域名会导致本地数据不可访问。请定期使用“备份JSON”，并把文件保存在 iCloud Drive。未来可加入 Supabase 云同步。
+## 发布
+请先在现有 PWA 导出 JSON，下载旧 GitHub 仓库 ZIP，再将本文件夹的**内容**上传覆盖原仓库根目录，保持原 GitHub Pages URL 不变。首次打开核对旧记录总数、累计分钟数，再做新增/编辑/删除测试。
 
-后台/锁屏不会持续执行计时器，但恢复时依据开始时间戳计算；若忘记暂停，必须手动修正。跨午夜的一个 session 目前按**结束日期**记账。计时记录精确到0.1分钟。
-
-## 本地预览
-在此目录运行 `python3 -m http.server 8000`，浏览器打开 http://localhost:8000。PWA 安装与 Service Worker 需要 HTTPS（localhost 例外）。
+## 限制
+- 无云端同步；数据仍在当前设备。
+- 实机 iPhone PWA 仍需用户验收，桌面 Chromium 移动端模拟不能替代实机。
+- 每50小时角色插画的变化以已包含的 11 张阶段卡为准；不提供实时自由换装。
